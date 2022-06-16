@@ -1,6 +1,21 @@
 ---
-- hosts: localhost
-  become: false
+- hosts: all
+  become: true
+  pre_tasks:
+    - name: update repo index (CentOS)
+      tags: always
+      dnf:
+        update_cache: yes
+      changed_when: false
+      when: ansible_distribution == "CentOS"
+
+    - name: update repository index (Ubuntu)
+      tags: always
+      apt:
+        update_cache: yes
+      changed_when: false
+      when: ansible_distribution == "Ubuntu"
+
 
 # ////////////////////////////////////////////////////////////////////////////////////////
 #  VARIABLES
@@ -9,38 +24,30 @@
   - "./vars/vars.yml"
 
   vars:
-    compose_up: true
+    cloudwatch_region: us-west-2
+    cloudwatch_deployment: ec2
 
 # ////////////////////////////////////////////////////////////////////////////////////////
 #  ENVIRONMENT VARIABLES
 # ////////////////////////////////////////////////////////////////////////////////////////
   environment:
-
     PLAYBOOK_DIR: "{{ playbook_dir }}"
 
-    MS_NAME: "{{ microservice_name }}"
-    IMAGE_REPO: "{{ image_repo }}"
-    BUILD_ID: "{{ build_id }}"
-
-    DJANGO_PORT: "{{ django_port }}"
-    HOST_PORT: "{{ host_port }}"
-
-    # DEV OR PROD /////////////////////////////////////
-    MS_DEPENDENCIES: "{{ vars[dev_prod + '_dependencies'] }}"
-
-    DJANGO_SECRET_KEY: "{{ vars[dev_prod + '_secret_key'] }}"
-    DJANGO_ALLOWED_HOSTS: "{{ vars[dev_prod + '_allowed_hosts'] }}"
-    DJANGO_DEBUG: "{{ vars[dev_prod + '_debug'] }}"
-
-    DB_ENGINE: "{{ vars[dev_prod + '_engine_type'] }}"
-    DB_NAME: "{{ vars[dev_prod + '_db_name'] }}"
-    DB_USER: "{{ vars[dev_prod + '_db_user'] }}"
-    DB_PASSWORD: "{{ vars[dev_prod + '_db_pass'] }}"
-    DB_PORT: "{{ vars[dev_prod + '_db_port'] }}"
-    DB_OPTIONS: "{{ vars[dev_prod + '_db_options'] }}"
-
 
 # ////////////////////////////////////////////////////////////////////////////////////////
-#  TASKS
+#  ROLES
 # ////////////////////////////////////////////////////////////////////////////////////////
-  tasks:
+
+# EC2 ---------------------------------
+- hosts: all
+  become: true
+  roles:
+    - ec2
+  when: cloudwatch_deployment == "ec2"
+
+# K8s ---------------------------------
+- hosts: all
+  become: true
+  roles:
+    - k8s
+  when: cloudwatch_deployment == "k8s"
