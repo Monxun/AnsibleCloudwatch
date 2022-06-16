@@ -2,19 +2,11 @@
 - hosts: all
   become: true
   pre_tasks:
-    - name: update repo index (CentOS)
-      tags: always
-      dnf:
-        update_cache: yes
-      changed_when: false
-      when: ansible_distribution == "CentOS"
-
-    - name: update repository index (Ubuntu)
-      tags: always
-      apt:
-        update_cache: yes
-      changed_when: false
-      when: ansible_distribution == "Ubuntu"
+    - name: example pre-task
+      shell:
+      args:
+        executable: /usr/bin/bash
+        cmd: echo "Running Playbook..."
 
 
 # ////////////////////////////////////////////////////////////////////////////////////////
@@ -25,7 +17,8 @@
 
   vars:
     cloudwatch_region: us-west-2
-    cloudwatch_deployment: ec2
+    deployment_type: ec2
+
 
 # ////////////////////////////////////////////////////////////////////////////////////////
 #  ENVIRONMENT VARIABLES
@@ -43,7 +36,7 @@
   become: true
   roles:
     - ec2
-  when: cloudwatch_deployment == "ec2"
+  when: deployment_type == "ec2"
 
 # K8s ---------------------------------
 - hosts: all
