@@ -1,2 +1,2 @@
 # AnsibleCloudwatch
-Ansible playbook to setup cloudwatch on EC2 Instances
+Ansible playbook to setup cloudwatch on EC2 Instances / K8s
