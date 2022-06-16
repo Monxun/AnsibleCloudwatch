@@ -1,0 +1,5 @@
+- name: Deploy Cloudwatch Agent to EC2 Instances
+  shell:
+  args:
+    executable: /usr/bin/bash
+    cmd: bash cloudwatchEC2.sh

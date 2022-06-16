@@ -1,0 +1,5 @@
+- name: Deploy Cloudwatch Agent to K8 clusters
+  shell:
+  args:
+    executable: /usr/bin/bash
+    cmd: bash cloudwatchK8s.sh
