@@ -1,0 +1,4 @@
+- name: k8s_handler
+  service:
+    name: "{{ k8s_service }}"
+    state: restarted

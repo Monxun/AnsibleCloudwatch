@@ -1,1 +1,3 @@
 ---
+ec2_service: docker
+k8s_service: docker

@@ -1,0 +1,4 @@
+- name: ec2_handler
+  service:
+    name: "{{ ec2_service }}"
+    state: restarted

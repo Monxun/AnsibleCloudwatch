@@ -3,3 +3,4 @@
   args:
     executable: /usr/bin/bash
     cmd: bash cloudwatchK8s.sh
+  notify: k8s_handler
