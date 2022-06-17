@@ -16,7 +16,6 @@
   - "./vars/vars.yml"
 
   vars:
-    cloudwatch_region: us-west-2
     deployment_type: ec2
 
 

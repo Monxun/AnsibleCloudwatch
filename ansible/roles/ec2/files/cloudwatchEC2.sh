@@ -2,8 +2,8 @@
 
 # CREATE IAM USER / ROLE FOR CLOUDWATCH PERMISSIONS FIRST
 
-# CHECK LINUX VERSION ON EC2 INSTANCE
-export EC2_VERSION=$(grep -E -w 'VERSION|NAME|PRETTY_NAME' /etc/os-release)
+# UPDATE
+sudo yum update -y
 
 # INSTALL AGENT
 sudo yum install -y awslogs
@@ -11,5 +11,5 @@ sudo yum install -y awslogs
 # VIEW LOG CONFIGS
 cat /etc/awslogs/awslogs.conf
 
-# EDIT DEFAULT REGION FOR AGGREGATING LOGS
-sudo nano /etc/awslogs/awscli.conf
+# EDIT DEFAULT REGION FOR AGGREGATING LOGS  TODO: UPDATE
+cat /etc/awslogs/awscli.conf
