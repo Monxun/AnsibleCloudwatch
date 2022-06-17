@@ -1,4 +1,9 @@
-- name: ec2_handler
+- name: ec2_handler_v1
   service:
     name: "{{ ec2_service }}"
-    state: restarted
+    state: "{{ ec2_service_state }}"
+
+- name: ec2_handler_v2
+  systemctl:
+    name: "{{ ec2_service }}"
+    state: "{{ ec2_service_state }}"

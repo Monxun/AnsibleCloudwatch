@@ -1,3 +1,8 @@
 ---
-ec2_service: docker
-k8s_service: docker
+# EC2 VARS
+ec2_service: awslog
+ec2_service_state: start
+
+# K8's VARS
+k8s_service: awslog
+k8s_service_state: start

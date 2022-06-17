@@ -1,6 +1,19 @@
-- name: Deploy Cloudwatch Agent to EC2 Instances
+- name: Grab EC2 Linux Version
+  command: grep -E -w 'VERSION' /etc/os-release
+  register: ec2_linux_version
+
+- name: Deploy Cloudwatch Agent to EC2 Instances v1
   shell:
   args:
     executable: /usr/bin/bash
     cmd: bash cloudwatchEC2.sh
-  notify: ec2_handler
+  notify: ec2_handler_v1
+  when: ec2_linux_version == "1"
+
+- name: Deploy Cloudwatch Agent to EC2 Instances v2
+  shell:
+  args:
+    executable: /usr/bin/bash
+    cmd: bash cloudwatchEC2.sh
+  notify: ec2_handler_v2
+  when: ec2_linux_version == "2"
